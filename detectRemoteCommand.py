@@ -14,6 +14,8 @@ import datetime
 import random
 import subprocess
 
+debug = True
+
 smsCommands = {'on':'''Power on''', 'off':'''Shutdown''', 'off_force':'''Force shutdown'''}
 adminNumber = '8018306325'
 executibles = {'on':'''on_power.py''', 'off':'''on_power.py''', 'off_force':'''off_power_force.py'''}
@@ -49,6 +51,8 @@ def verifyReceivedPin(waitTime,pin,msg):
 	voice.sms()
 	msgs = extractsms(voice.sms.html)
 	myLastSms = findLastMsgISent(msgs)
+	if myLastSms == -1:
+		myLastSms == 0
 	commandKey = getSmsCommandKey(msg['text'])
 	timeElapsed = 0
 	while timeElapsed < waitTime:
@@ -57,14 +61,15 @@ def verifyReceivedPin(waitTime,pin,msg):
 		msgs = extractsms(voice.sms.html)
 
 		for i,key in enumerate(msgs):
-			if isConfirmPin(msgs[i],pin) & (i > myLastSms):
+			if isConfirmPin(msgs[i],pin) and (i > myLastSms):
 				executeCommand(commandKey)
-				deleteReadSMS()
+				#deleteReadSMS()
 				return
-			elif !isConfirmPin(msgs[i],pin) & (i > myLastSms):
+			elif not(isConfirmPin(msgs[i],pin)) and (i > myLastSms):
 				print "Command aborted."
-				sendSMS(adminNumber, "Command aborted")
-				deleteReadSMS()
+				print myLastSms , i
+				#sendSMS(adminNumber, "Command aborted")
+				#deleteReadSMS()
 				return
 
 		sleep(30)
@@ -142,11 +147,15 @@ voice = Voice()
 voice.login()
 voice.sms()
 msgs = extractsms(voice.sms.html)
-msg = msgs[len(msgs)-1]
-key = ""
-if isSMScommand(msg):
-	key = getSmsCommandKey(msg)
-	pin = sendVerifyText(msg)
-	verifyReceivedPin(2*60,pin,msg)
+msgsLength = len(msgs)
+if debug:
+	print "msgsLength = " + str(msgsLength)
+if msgsLength >0:
+	msg = msgs[msgsLength-1]
+	key = ""
+	if isSMScommand(msg):
+		key = getSmsCommandKey(msg)
+		pin = sendVerifyText(msg)
+		verifyReceivedPin(2*60,pin,msg)
 
 
