@@ -1,5 +1,5 @@
 #!/usr/bin/python
-print "Content-Type: text/plain;charset=utf-8"
+print "Setting GPIO pin 17 to FALSE for .5 seconds"
 import time
 from time import sleep
 import RPi.GPIO as GPIO
