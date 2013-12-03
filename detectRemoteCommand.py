@@ -20,7 +20,7 @@ smsCommands = {'on':'''Power on''', 'off':'''Shutdown''', 'off_force':'''Force s
 adminNumber = '8018306325'
 executibles = {'on':'''on_power.py''', 'off':'''on_power.py''', 'off_force':'''off_power_force.py'''}
 confirmedText = "I will now execute command "
-executibleLocation = "/home/jkh777/"
+executibleLocation = "/home/jkh777/pyGoogleVoiceCommands/"
 
 
 
@@ -42,7 +42,7 @@ def sendVerifyText(msg):
 	input = msg['text']
 	key = getSmsCommandKey(input)
 	pin = str(random.randint(0,99999)).zfill(5)
-	verifyText = "Do you want to \n --> " + input + " <-- \nyour computer? Reply with \n--> " + pin + " <--\nwithin 5 minutes."
+	verifyText = "Do you want to \n --> " + input + " <-- \nyour computer? Reply with \n--> " + pin + " <--\nwithin 2 minutes. Anything else to abort"
 	sendSMS(adminNumber,verifyText)
 	return pin
 
