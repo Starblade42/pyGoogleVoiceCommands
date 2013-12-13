@@ -54,7 +54,7 @@ def verifyReceivedPin(waitTime,pin,msg):
 	myLastSms = findLastMsgISent(msgs)
 	#retrive the command being sent and find the proper key for our dictionary, so we can execute the right command in our command dictionary
 	commandKey = getSmsCommandKey(msg['text'])
-	#Set up the loop we will use to poll for the text. Eventually I'll make it so this can be a script that runs in response to a script, but polling will do
+	#Set up the loop we will use to poll for the text. Eventually I'll make it so this can be a script that runs in response to a script, but polling will do for now
 	timeElapsed = 0
 	while timeElapsed < waitTime:
 		#log in to get all the most recent SMS messages.
@@ -68,7 +68,6 @@ def verifyReceivedPin(waitTime,pin,msg):
 		for i,key in enumerate(msgs):
 			if isConfirmPin(msgs[i],pin) & (i > myLastSms):
 				executeCommand(commandKey)
-				deleteReadSMS()
 				return
 		#Rather than poll constantly, we'll wait at least 30 seconds. Don't want Google to think we're trying to hack them!
 		sleep(30)
