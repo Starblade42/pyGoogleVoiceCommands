@@ -156,6 +156,6 @@ key = ""
 if isSMScommand(msg):
 	key = getSmsCommandKey(msg)
 	pin = sendVerifyText(msg)
-	verifyReceivedPin(2*60,pin,msg)
+	verifyReceivedPin(5*60,pin,msg)
 
 
