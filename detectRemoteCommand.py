@@ -8,7 +8,7 @@
 #
 from googlevoice import Voice
 import sys
-import BeautifulSoup
+from bs4 import BeautifulSoup
 from time import sleep
 import datetime
 import random
