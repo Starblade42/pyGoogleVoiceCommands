@@ -8,7 +8,7 @@
 #
 from googlevoice import Voice
 import sys
-from bs4 import BeautifulSoup
+import BeautifulSoup
 from time import sleep
 import datetime
 import random
@@ -23,7 +23,10 @@ executibleLocation = "/home/jkh777/"
 
 
 def isSMScommand(msg):
-	text = msg['text']
+	try:
+		text = msg['text']
+	except TypeError as e:
+		return False
 	for i,key in enumerate(smsCommands):
 		if text == smsCommands[key]:
 			return True
@@ -151,7 +154,11 @@ voice = Voice()
 voice.login()
 voice.sms()
 msgs = extractsms(voice.sms.html)
-msg = msgs[len(msgs)-1]
+try:
+	msg = msgs[len(msgs)-1]
+except IndexError as e:
+	print "no messages to check right now."
+	msg = []
 key = ""
 if isSMScommand(msg):
 	key = getSmsCommandKey(msg)
